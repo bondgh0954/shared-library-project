@@ -1,4 +1,4 @@
-def gv
+
 pipeline{
   agent any
   tools{
@@ -7,13 +7,7 @@ pipeline{
 
   stages{
 
-    stage('init'){
-      steps{
-        script{
-          gv = load 'script.groovy'
-        }
-      }
-    }
+
     stage('buildJar'){
       steps{
         script{
@@ -28,7 +22,7 @@ pipeline{
           echo 'building docker image from the application'
           withCredentials([usernamePassword(credentialsId:'dockerhub-credentials',usernameVariable:'USER',passwordVariable:'PASSWORD')]){
             sh "docker build -t nanaot/java-app:5.4 ."
-            sh 'echo $PASSWORD | docker login -u $USER --password-stdin'
+            sh "echo $PASSWORD | docker login -u $USER --password-stdin"
             sh "docker push nanaot/java-app:5.4"
           }
         }
