@@ -1,3 +1,5 @@
+#!/user/bin/env groovy
+@Library('shared-library')
 def gv
 pipeline{
   agent any
@@ -19,14 +21,16 @@ pipeline{
     stage('buildJar'){
       steps{
         script{
-          gv.buildJar()
+          buildJar()
         }
       }
     }
     stage('buildImage'){
       steps{
         script{
-          gv.buildImage()
+          buildImage 'nanaot/java-app:8.7'
+          dockerLogin()
+          pushImage 'nanaot/java-app:8.7'
         }
       }
     }
